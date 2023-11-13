@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circle</title>
+    <style>
+		/* Toolbar styles */
+		.toolbar {
+			background-color: grey;
+			padding: 10px;
+			text-align: left;
+			color: white;
+			font-size: 24px;
+		}
+
+		/* Grid background styles */
+		body {
+			background-image: linear-gradient(0deg, transparent 24%, rgba(173, 216, 230, 0.5) 25%, rgba(173, 216, 230, 0.5) 26%, transparent 26%, transparent 74%, rgba(173, 216, 230, 0.5) 75%, rgba(173, 216, 230, 0.5) 76%, transparent 76%, transparent),
+							  linear-gradient(90deg, transparent 24%, rgba(173, 216, 230, 0.5) 25%, rgba(173, 216, 230, 0.5) 26%, transparent 26%, transparent 74%, rgba(173, 216, 230, 0.5) 75%, rgba(173, 216, 230, 0.5) 76%, transparent 76%, transparent);
+			background-size: 250px 250px;
+		}
+
+        .circle {
+            width: 100px;
+            height: 100px;
+            background-color: #fe6a75;
+            border-radius: 50%;
+            margin: 100px;
+            animation: pulse 2s infinite;
+            transition: background-color 0.5s ease;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+		
+		.color-list {
+			position: absolute;
+			right: 0;
+			top: 0;
+			width: 100px; /* Adjust the width as needed */
+			padding: 10px;
+			box-shadow: -5px 0 5px -5px #333; /* Optional: adds a shadow for better separation */
+			height: 100vh; /* Full height */
+			overflow-y: auto; /* Enables scrolling if the list is too long */
+			background-color: rgba(119,130,145,0.9);
+		}
+		
+		.color-list ul {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+		}
+
+		/* Style for color list items */
+		.color-list li {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			margin-bottom: 5px;
+			color: #fff;
+		}
+
+		.color-list li .color-box {
+			width: 20px;  /* Size of the color box */
+			height: 20px; /* Same as width to make it square */
+			border: 1px solid #fff; /* Optional: adds a border around the color box */
+			order: 2;
+		}
+		.color-list li span {
+			order: 1; /* Place the text before the color box */
+			white-space: nowrap; /* Prevents the text from wrapping */
+			flex-grow: 1; /* Allows the text to take up remaining space */
+		}
+    </style>
+	<script src="hexToRgb.js"></script>
+    <script src="updateColorList.js"></script>
+</head>
+<body>
+<!-- Toolbar -->
+<div class="toolbar">
+    <span>+</span>
+</div>
+
+<div class="circle" id="circle"></div>
+
+
+<div class="color-list">
+    <ul id="colorList"></ul>
+</div>
+
+<script>
+    const colors = [
+    "#fe6a75", "#cb3370", "#adf80b", "#4b006e", "#fe0109",
+    "#fd8d49", "#1805db", "#b7c9e2", "#bffe28", "#fcb001",
+    "#00f502", "#d6f765", "#51c878", "#cd8b98", "#4fbfe1",
+    "#8d92ef", "#e48ecb", "#a7e562", "#f11022", "#485d7e",
+    "#94ccac", "#6de08c", "#1201f3", "#37f317", "#f23605"
+	];
+
+	const colorListElement = document.getElementById('colorList');
+
+	colors.forEach(color => {
+		const listItem = document.createElement('li');
+		
+		// Create  color box
+		const colorBox = document.createElement('div');
+		colorBox.classList.add('color-box');
+		colorBox.style.backgroundColor = color;
+		
+		//create the text for the hex color 
+		const textNode = document.createElement('span');
+		textNode.textContent = color;
+		
+		
+		//Append each the color box and the text node to the list item
+		
+		listItem.appendChild(textNode);	
+		listItem.appendChild(colorBox);		
+		
+		colorListElement.appendChild(listItem);
+	});
+	
+	
+
+    const circle = document.getElementById('circle');
+	
+	const initialColorIndex = Math.floor(Math.random() * colors.length);
+	circle.style.backgroundColor = colors[initialColorIndex];
+	updateColorList(colors[initialColorIndex]);
+
+    circle.addEventListener('click', () => {
+        const randomColorIndex = Math.floor(Math.random() * colors.length);
+		const newColor = colors[randomColorIndex];
+        circle.style.backgroundColor = newColor;
+		updateColorList(newColor);
+    });
+</script>
+
+</body>
+</html>
