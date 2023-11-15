@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Circle</title>
     <style>
+		html, body {
+			height: 100%;
+			margin: 0;
+			padding: 0;
+		}
+		
 		/* Toolbar styles */
 		.toolbar {
 			background-color: grey;
@@ -20,6 +26,10 @@
 							  linear-gradient(90deg, transparent 24%, rgba(173, 216, 230, 0.5) 25%, rgba(173, 216, 230, 0.5) 26%, transparent 26%, transparent 74%, rgba(173, 216, 230, 0.5) 75%, rgba(173, 216, 230, 0.5) 76%, transparent 76%, transparent);
 			background-size: 250px 250px;
 		}
+		
+		.develop-mode {
+			cursor: url('F8cursor_icon64.png'), auto;
+		}
 
         .circle {
             width: 100px;
@@ -30,6 +40,10 @@
             animation: pulse 2s infinite;
             transition: background-color 0.5s ease;
         }
+		
+		.circle:hover {
+			cursor: pointer;
+		}
 
         @keyframes pulse {
             0% { transform: scale(1); }
@@ -47,12 +61,14 @@
 			height: 100vh; /* Full height */
 			overflow-y: auto; /* Enables scrolling if the list is too long */
 			background-color: rgba(119,130,145,0.9);
+			display: none;
 		}
 		
 		.color-list ul {
 			list-style: none;
 			padding: 0;
 			margin: 0;
+			
 		}
 
 		/* Style for color list items */
@@ -115,6 +131,12 @@
 		const textNode = document.createElement('span');
 		textNode.textContent = color;
 		
+		// Adding a click a event listener to each list item in color list 
+		listItem.addEventListener('click', () => {
+			circle.style.backgroundColor = color;
+			updateColorList(color);
+		});
+		
 		
 		//Append each the color box and the text node to the list item
 		
@@ -138,6 +160,20 @@
         circle.style.backgroundColor = newColor;
 		updateColorList(newColor);
     });
+	
+	document.addEventListener('keydown', (e) => {
+		if (e.key === "F8") {
+			const bodyElement = document.querySelector('body');
+			bodyElement.classList.toggle('develop-mode');
+		
+			const colorList = document.querySelector('.color-list');
+			if (colorList.style.display === '' || colorList.style.display === 'none') {
+				colorList.style.display = 'block';
+			} else {
+				colorList.style.display = 'none';
+			}
+		}
+	});
 </script>
 
 </body>
